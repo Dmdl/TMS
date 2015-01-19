@@ -66,6 +66,7 @@ public class ProcessData extends HttpServlet {
                 String date = request.getParameter("date");
                 String fromT = request.getParameter("fromT");
                 String toT = request.getParameter("toT");
+                System.out.println("code " + code);
             }
         }
 
