@@ -21,8 +21,8 @@
             .fieldset-auto-width {
                 width: 60%;
                 display: inline-block;
-            } 
-            #ui-datepicker-div { font-size: 12px; } 
+            }
+            #ui-datepicker-div { font-size: 12px; }
         </style>
         <script language="JavaScript" type="text/JavaScript" src="<%=contextPath%>/javascript/datepicker/jquery.ui.core.js"></script>
         <script language="JavaScript" type="text/JavaScript" src="<%=contextPath%>/javascript/datepicker/jquery.ui.widget.js"></script>
@@ -74,7 +74,7 @@
             </fieldset>
         </div>
         <br>
-        <a href="session">Add Session</a>
+        <a href="session">Manage Session</a>
     </body>
 </html>
 

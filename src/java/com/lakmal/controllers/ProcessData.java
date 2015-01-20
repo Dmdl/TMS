@@ -9,8 +9,15 @@ import com.lakmal.dao.CourseDao;
 import com.lakmal.dao.CourseDaoImpl;
 import com.lakmal.dao.PersonDao;
 import com.lakmal.dao.PersonDaoImpl;
+import com.lakmal.dao.SessionDao;
+import com.lakmal.dao.SessionDaoImpl;
+import com.lakmal.dao.SessionManagementDao;
+import com.lakmal.dao.SessionManagementDaoImpl;
 import com.lakmal.domain.Course;
 import com.lakmal.domain.Person;
+import com.lakmal.domain.Session;
+import com.lakmal.domain.SessionManagement;
+import com.lakmal.util.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -66,7 +73,30 @@ public class ProcessData extends HttpServlet {
                 String date = request.getParameter("date");
                 String fromT = request.getParameter("fromT");
                 String toT = request.getParameter("toT");
-                System.out.println("code " + code);
+                String toTimeSt = Utility.convertTo24HoursFormat(toT);
+                String fromTimeSt = Utility.convertTo24HoursFormat(fromT);
+                System.out.println("toTimeSt " + toTimeSt);
+                Session session = new Session(code, name, course, date, fromTimeSt, toTimeSt);
+                SessionDao sessionDao = new SessionDaoImpl();
+                int id = sessionDao.save(session);
+                if (-1 != id) {
+                    out.println("Successfully Saved....");
+                } else {
+                    out.println("Error Saving record....");
+                }
+            }
+        } else if ("manageSession".equals(action)) {
+            try (PrintWriter out = response.getWriter()) {
+                String person = request.getParameter("person");
+                String cos = request.getParameter("cos");
+                SessionManagement sesMan = new SessionManagement(cos, person);
+                SessionManagementDao sesManDao = new SessionManagementDaoImpl();
+                int id = sesManDao.save(sesMan);
+                if (-1 != id) {
+                    out.println("Successfully Saved....");
+                } else {
+                    out.println("Error Saving record....");
+                }
             }
         }
 

@@ -4,8 +4,9 @@
     Author     : lakmal
 --%>
 
-<%@page import="com.lakmal.domain.Course"%>
-<%@page import="com.lakmal.dao.CourseDao"%>
+<%@page import="com.lakmal.domain.Session"%>
+<%@page import="com.lakmal.dao.SessionDao"%>
+<%@page import="com.lakmal.dao.SessionDaoImpl"%>
 <%@page import="com.lakmal.dao.CourseDaoImpl"%>
 <%@page import="java.util.List"%>
 <%@page import="com.lakmal.domain.Person"%>
@@ -16,24 +17,26 @@
 <%
     String contextPath = request.getContextPath();
     PersonDao personDao = new PersonDaoImpl();
-    CourseDao courseDao = new CourseDaoImpl();
     List<Person> persons = personDao.getResourcePersons();
-    List<Course> courses = courseDao.getCourses();
+    SessionDao sessionDao = new SessionDaoImpl();
+    List<Session> sessions = sessionDao.getSessions();
 %>
 <html>
     <head>
         <style type="text/css">
             .fieldset-auto-width {
+                width: 50%;
                 display: inline-block;
-            }           
+            }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Add Session</title>
+        <title>Session Management</title>
     </head>
     <body>
+        <div id="result"></div>
         <div id="session-div">
             <fieldset class="fieldset-auto-width">
-                <legend>Add Session</legend>
+                <legend>Manage Session</legend>
                 Select Resource Person :
                 <select id="pers">
                     <option value="0">Select</option>
@@ -42,15 +45,15 @@
                     <%}%>
                 </select>
                 <br><br>
-                Select Course :
+                Select Session :
                 <select id="cos">
                     <option value="0">Select</option>
-                    <%for (Course co : courses) {%>
-                    <option value="<%=co.getCode()%>"><%=co.getName()%></option>
+                    <%for (Session co : sessions) {%>
+                    <option value="<%=co.getSessionCode()%>"><%=co.getSessionName()%></option>
                     <%}%>
                 </select>
-                <br>
-                <input type="submit" value="Add Session" id="session"/>
+                <br><br>
+                <input type="submit" value="Manage Session" id="session"/>
             </fieldset>
         </div>
     </body>
@@ -59,6 +62,21 @@
 <script type="text/javascript">
     $('#session').click(function() {
         var person = $('#pers').val();
-        alert(person);
+        var cos = $('#cos').val();
+        alert(person + ' ' + cos);
+        $.ajax({
+            type: "POST",
+            url: 'ProcessData',
+            cache: false,
+            timeout: "600000",
+            dataType: "text",
+            data: {action: "manageSession", person: person, cos: cos},
+            success: function(data) {
+                $('#result').html(data).show();
+                setTimeout(function() {
+                    jQuery("#result").hide();
+                }, 3000);
+            }
+        });
     });
 </script>
