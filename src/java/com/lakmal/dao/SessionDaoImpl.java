@@ -69,4 +69,24 @@ public class SessionDaoImpl implements SessionDao {
         }
         return sessions;
     }
+
+    @Override
+    public Session getSession(String sessionCode) {
+        Session session = null;
+        try {
+            String sql = "SELECT * FROM tms.session_detail s where code='" + sessionCode + "'";
+            Connection conn = DbConnection.getConnection();
+            Statement stmt = conn.createStatement();
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    session = new Session(rs.getInt("id"), rs.getString("code"), rs.getString("name"), rs.getString("course_code"), rs.getString("date"), rs.getString("from_time"), rs.getString("to_time"));
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            DbConnection.closeConnection();
+        }
+        return session;
+    }
 }

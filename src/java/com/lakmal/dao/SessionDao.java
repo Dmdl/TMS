@@ -17,4 +17,6 @@ public interface SessionDao {
     public int save(Session session);
 
     public List<Session> getSessions();
+
+    public Session getSession(String sessionCode);
 }

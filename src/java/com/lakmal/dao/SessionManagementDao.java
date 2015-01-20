@@ -14,4 +14,6 @@ import com.lakmal.domain.SessionManagement;
 public interface SessionManagementDao {
 
     public int save(SessionManagement sesMan);
+
+    public boolean checkOverideSessions(String personCode, String sessionCode);
 }

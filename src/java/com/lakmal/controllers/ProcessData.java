@@ -91,11 +91,16 @@ public class ProcessData extends HttpServlet {
                 String cos = request.getParameter("cos");
                 SessionManagement sesMan = new SessionManagement(cos, person);
                 SessionManagementDao sesManDao = new SessionManagementDaoImpl();
-                int id = sesManDao.save(sesMan);
-                if (-1 != id) {
-                    out.println("Successfully Saved....");
+                boolean isOveride = sesManDao.checkOverideSessions(person, cos);
+                if (isOveride) {
+                    out.println("Another Session Exist for Same Resource Person....");
                 } else {
-                    out.println("Error Saving record....");
+                    int id = sesManDao.save(sesMan);
+                    if (-1 != id) {
+                        out.println("Successfully Saved....");
+                    } else {
+                        out.println("Error Saving record....");
+                    }
                 }
             }
         }

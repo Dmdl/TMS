@@ -56,6 +56,8 @@
                 <input type="submit" value="Manage Session" id="session"/>
             </fieldset>
         </div>
+        <br>
+        <a href="http://localhost:8080/TMS/">Home</a>
     </body>
 </html>
 <script src="<%=contextPath%>/javascript/jquery-1.10.2.min.js"></script>
@@ -63,7 +65,6 @@
     $('#session').click(function() {
         var person = $('#pers').val();
         var cos = $('#cos').val();
-        alert(person + ' ' + cos);
         $.ajax({
             type: "POST",
             url: 'ProcessData',
